@@ -135,7 +135,7 @@ export function AddressFields({
                   maxLength={10}
                   {...field}
                   value={field.value ?? ''}
-                  placeholder="12345 or 12345-6789"
+                  placeholder="12345"
                 />
               </FormControl>
               <FormMessage />
