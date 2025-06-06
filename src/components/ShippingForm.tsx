@@ -10,14 +10,14 @@ import { FromAddressStep } from './FromAddressStep';
 import { ToAddressStep } from './ToAddressStep';
 import { PackageDetailsStep } from './PackageDetailsStep';
 import { ReviewStep } from './ReviewStep';
+import { User, MapPin, Package, CheckCircle } from "lucide-react";
 
 
-// Steps for the progress bar
 const STEPS = [
-  { id: 'from', label: 'From Address' },
-  { id: 'to', label: 'To Address' },
-  { id: 'package', label: 'Package Details' },
-  { id: 'review', label: 'Review & Submit' },
+  { id: 'from', label: 'From Address', icon: User },
+  { id: 'to', label: 'To Address', icon: MapPin },
+  { id: 'package', label: 'Package Details', icon: Package },
+  { id: 'review', label: 'Review & Submit', icon: CheckCircle },
 ];
 
 export default function ShippingForm() {
@@ -25,7 +25,6 @@ export default function ShippingForm() {
   const [error, setError] = useState<string | null>(null);
   const [labelUrl, setLabelUrl] = useState<string | null>(null);
 
-  // Track the current step (0-based index)
   const [currentStep, setCurrentStep] = useState(0);
 
   const form = useForm<FormData>({
@@ -83,20 +82,17 @@ export default function ShippingForm() {
   };
 
   const onSubmit = async (data: FormData) => {
-    console.log('SUBMIT CALLED', data);
     setIsLoading(true);
     setError(null);
     setLabelUrl(null);
 
     try {
-      // Validate addresses using the API
       const [fromValid, toValid] = await validateAddresses(data.fromAddress, data.toAddress);
 
       if (!fromValid || !toValid) {
         throw new Error('One or more addresses are invalid');
       }
 
-      // Create shipping label using the API
       const response = await fetch('/api/shipping', {
         method: 'POST',
         headers: {
@@ -112,7 +108,7 @@ export default function ShippingForm() {
 
       const label = await response.json();
       setLabelUrl(label.labelUrl);
-      setCurrentStep(STEPS.length - 1); // Move to last step
+      setCurrentStep(STEPS.length - 1);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -123,7 +119,6 @@ export default function ShippingForm() {
   const handleNextStep = async () => {
     const fieldsToValidate = stepValidationFields[currentStep as keyof typeof stepValidationFields] ?? [];
     const valid = await form.trigger(fieldsToValidate);
-    console.log('VALID', valid);
     if (valid) nextStep();
   };
 
@@ -135,7 +130,6 @@ export default function ShippingForm() {
     <ReviewStep error={error} isLoading={isLoading} labelUrl={labelUrl} key="review-step" />,
   ];
 
-  // Calculate progress percentage
   const progressValue = ((currentStep + 1) / STEPS.length) * 100;
 
   const stepValidationFields = {
@@ -158,15 +152,19 @@ export default function ShippingForm() {
         {/* Progress bar and step labels */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-2">
-            {STEPS.map((step, idx) => (
-              <div
-                key={step.id}
-                className={`text-xs font-medium ${idx === currentStep ? 'text-primary' : 'text-muted-foreground'}`}
-                style={{ width: `${100 / STEPS.length}%`, textAlign: 'center' }}
-              >
-                {step.label}
-              </div>
-            ))}
+            {STEPS.map((step, idx) => {
+              const Icon = step.icon;
+              return (
+                <div
+                  key={step.id}
+                  className={`flex flex-col items-center text-xs font-medium ${idx === currentStep ? 'text-primary' : 'text-muted-foreground'}`}
+                  style={{ width: `${100 / STEPS.length}%`, textAlign: 'center' }}
+                >
+                  <Icon className="mb-1 h-5 w-5" />
+                  {step.label}
+                </div>
+              );
+            })}
           </div>
           <Progress value={progressValue} className="h-2" />
         </div>
