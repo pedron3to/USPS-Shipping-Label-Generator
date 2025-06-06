@@ -4,7 +4,7 @@ A Next.js application that generates USPS shipping labels using the EasyPost API
 
 ## Quick Start
 
-1. Clone the repository
+1. Clone the repository: [https://github.com/pedron3to/USPS-Shipping-Label-Generator.git](https://github.com/pedron3to/USPS-Shipping-Label-Generator.git)
 2. Install dependencies:
    ```bash
    npm install
