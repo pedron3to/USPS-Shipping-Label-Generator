@@ -62,9 +62,6 @@ export async function validateAddress(address: Address): Promise<boolean> {
    }
     const validatedAddress = await client.Address.create(updatedAddress)
 
-    console.log({Address: address,sucess: validatedAddress.verifications?.delivery?.success})
-    
-
     return validatedAddress.verifications?.delivery?.success;
   } catch (error) {
     console.error('Error validating address:', error);

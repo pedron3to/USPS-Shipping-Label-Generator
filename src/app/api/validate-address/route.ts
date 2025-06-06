@@ -7,8 +7,6 @@ export async function POST(request: Request) {
     const address: Address = await request.json();
     const isValid = await validateAddress(address);
 
-    console.log(isValid);
-
     return NextResponse.json({ isValid });
   } catch (error) {
     console.error('Error validating address:', error);
