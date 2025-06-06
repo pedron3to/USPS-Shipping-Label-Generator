@@ -35,25 +35,20 @@ Try the app live:
 ## Assumptions & Design Decisions
 
 1. **Address Validation**: Only US addresses are accepted as per requirements
-2. **Package Types**: Focused on common package types (First-Class, Priority Mail)
-3. **UI/UX**: Simple, intuitive form-based interface with clear validation
-4. **Security**: API key is stored in environment variables
-5. **Error Handling**: Comprehensive error messages for API failures
+2. **UI/UX**: Simple, intuitive form-based interface with clear validation
+3. **Security**: API key is stored in environment variables
+4. **Error Handling**: Comprehensive error messages for API failures
 
 ## What I'd Do Next
 
 1. **Enhanced Features**:
    - Add support for international shipping
-   - Implement address book for frequent recipients
    - Add shipping rate calculator
-   - Support multiple package types and services
 
 2. **Technical Improvements**:
    - Add comprehensive test coverage
    - Implement caching for API responses
    - Add loading states and better error handling
-   - Implement proper logging
-   - Add analytics for usage tracking
 
 3. **UI/UX Improvements**:
    - Add dark mode support
